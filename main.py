@@ -33,8 +33,9 @@ async def on_ready():
 @bot.event
 async def on_message(message):
     try:
+        # Evităm ca botul să răspundă propriilor mesaje
         if message.author == bot.user:
-            return  # Evită să răspundă propriilor mesaje
+            return
 
         # Verifică dacă mesajul este trimis de un webhook
         if message.webhook_id is not None:
@@ -46,18 +47,16 @@ async def on_message(message):
                 # Trimite mesaj în canalul Raid-base (ID-ul canalului 1364002151474659492)
                 raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
                 if raid_base_channel:
+                    # Trimite mesaj doar dacă nu s-a trimis deja unul similar
                     await raid_base_channel.send("Inamici la baza")  # Mesaj pentru 'Tek Sensor'
-                else:
-                    print("❌ Nu am găsit canalul de Raid-base!")
-
+            
             elif "fob" in content:
                 print("⚠️ Alertă: 'Fob' detectat!")
                 # Trimite mesaj în canalul Raid-base (ID-ul canalului 1364002151474659492)
                 raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
                 if raid_base_channel:
+                    # Trimite mesaj doar dacă nu s-a trimis deja unul similar
                     await raid_base_channel.send("Inamici la Fob")  # Mesaj pentru 'Fob'
-                else:
-                    print("❌ Nu am găsit canalul de Raid-base!")
 
             # Verifică dacă este un mesaj trimis într-un canal specific (Tribe logs)
             if message.channel.id == TRIBE_LOGS_CHANNEL_ID:
@@ -65,8 +64,6 @@ async def on_message(message):
                 raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
                 if raid_base_channel:
                     await raid_base_channel.send(f"<@&{ROLE_ID}> Alertă: Mesaj detectat cu cuvintele cheie!")
-                else:
-                    print("❌ Nu am găsit canalul de Raid-base!")
 
     except Exception as e:
         print(f"❌ Eroare: {e}")
