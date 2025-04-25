@@ -1,11 +1,10 @@
 import discord
 from discord.ext import commands
-import os  # Importăm modulul os pentru a accesa variabilele de mediu
+import os
 
-# Tokenul botului - luăm tokenul din variabila de mediu
-TOKEN = os.getenv("DISCORD_TOKEN")  # Folosește variabila de mediu 'DISCORD_TOKEN'
+# Tokenul botului - îl luăm din variabila de mediu
+TOKEN = os.getenv("DISCORD_TOKEN")
 
-# Verificăm dacă tokenul a fost găsit
 if TOKEN is None:
     print("❌ Tokenul nu a fost găsit! Asigură-te că ai setat variabila de mediu 'DISCORD_TOKEN'.")
     exit(1)
@@ -14,7 +13,10 @@ if TOKEN is None:
 RAID_BASE_CHANNEL_ID = 1364002151474659492  # ID-ul canalului Raid-base
 TRIBE_LOGS_CHANNEL_ID = 910278737331896340  # ID-ul canalului Tribe logs
 
-# Intenții - pentru a permite botului să citească mesajele
+# ID-ul rolului
+ROLE_ID = 937964042247622657  # ID-ul rolului 'Tribe Member'
+
+# Intenții pentru a permite botului să citească mesajele
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
@@ -40,18 +42,31 @@ async def on_message(message):
 
             # Căutăm anumite cuvinte cheie în mesaj
             if "tek sensor" in content:
-                print("⚠️ Alertă: Mesaj cu 'Tek Sensor' detectat!")
+                print("⚠️ Alertă: 'Tek Sensor' detectat!")
                 # Trimite mesaj în canalul Raid-base (ID-ul canalului 1364002151474659492)
                 raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
                 if raid_base_channel:
                     await raid_base_channel.send("Inamici la baza")  # Mesaj pentru 'Tek Sensor'
-            
+                else:
+                    print("❌ Nu am găsit canalul de Raid-base!")
+
             elif "fob" in content:
-                print("⚠️ Alertă: Mesaj cu 'Fob' detectat!")
+                print("⚠️ Alertă: 'Fob' detectat!")
                 # Trimite mesaj în canalul Raid-base (ID-ul canalului 1364002151474659492)
                 raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
                 if raid_base_channel:
                     await raid_base_channel.send("Inamici la Fob")  # Mesaj pentru 'Fob'
+                else:
+                    print("❌ Nu am găsit canalul de Raid-base!")
+
+            # Verifică dacă este un mesaj trimis într-un canal specific (Tribe logs)
+            if message.channel.id == TRIBE_LOGS_CHANNEL_ID:
+                # Trimite un ping la rolul 'Tribe Member' în canalul Raid-base
+                raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
+                if raid_base_channel:
+                    await raid_base_channel.send(f"<@&{ROLE_ID}> Alertă: Mesaj detectat cu cuvintele cheie!")
+                else:
+                    print("❌ Nu am găsit canalul de Raid-base!")
 
     except Exception as e:
         print(f"❌ Eroare: {e}")
@@ -61,6 +76,7 @@ async def on_message(message):
 
 # Pornește botul
 try:
+    print("🚀 Pornind botul...")
     bot.run(TOKEN)
 except Exception as e:
     print(f"❌ Botul nu s-a putut conecta: {e}")
