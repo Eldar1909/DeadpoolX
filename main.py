@@ -1,8 +1,9 @@
 import discord
 from discord.ext import commands
+import os  # Vom folosi acest modul pentru a prelua variabilele de mediu
 
-# Tokenul botului - nu uita să înlocuiești cu tokenul tău real
-TOKEN = "TOKENUL_TAU_AICI"  # Îți recomand să pui tokenul într-un fișier de configurare sau să-l folosești ca variabilă de mediu
+# Tokenul botului - preluat din variabila de mediu
+TOKEN = os.getenv("DISCORD_TOKEN")  # Asigură-te că ai setat variabila de mediu DISCORD_TOKEN pe platforma ta de deployment
 
 # Intenții - pentru a permite botului să citească mesajele
 intents = discord.Intents.default()
