@@ -14,7 +14,7 @@ RAID_BASE_CHANNEL_ID = 1364002151474659492  # ID-ul canalului Raid-base
 TRIBE_LOGS_CHANNEL_ID = 910278737331896340  # ID-ul canalului Tribe logs
 
 # ID-ul rolului
-ROLE_ID = 937964042247622657  # ID-ul rolului 'Tribe membru'
+ROLE_ID = 937964042247622657  # ID-ul rolului 'Trib membru'
 
 # Intenții pentru a permite botului să citească mesajele
 intents = discord.Intents.default()
