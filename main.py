@@ -14,7 +14,7 @@ RAID_BASE_CHANNEL_ID = 1364002151474659492  # ID-ul canalului Raid-base
 TRIBE_LOGS_CHANNEL_ID = 910278737331896340  # ID-ul canalului Tribe logs
 
 # ID-ul rolului
-ROLE_ID = 937964042247622657  # ID-ul rolului 'Tribe Member'
+ROLE_ID = 937964042247622657  # ID-ul rolului 'Tribe membru'
 
 # Intenții pentru a permite botului să citească mesajele
 intents = discord.Intents.default()
@@ -47,23 +47,16 @@ async def on_message(message):
                 # Trimite mesaj în canalul Raid-base (ID-ul canalului 1364002151474659492)
                 raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
                 if raid_base_channel:
-                    # Trimite mesaj doar dacă nu s-a trimis deja unul similar
-                    await raid_base_channel.send("Inamici la baza")  # Mesaj pentru 'Tek Sensor'
+                    # Trimite ping la rolul 'Tribe membru' și mesajul 'Inamici la baza'
+                    await raid_base_channel.send(f"<@&{ROLE_ID}> Inamici la baza")  # Ping la rol și mesaj pentru 'Tek Sensor'
             
             elif "fob" in content:
                 print("⚠️ Alertă: 'Fob' detectat!")
                 # Trimite mesaj în canalul Raid-base (ID-ul canalului 1364002151474659492)
                 raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
                 if raid_base_channel:
-                    # Trimite mesaj doar dacă nu s-a trimis deja unul similar
-                    await raid_base_channel.send("Inamici la Fob")  # Mesaj pentru 'Fob'
-
-            # Verifică dacă este un mesaj trimis într-un canal specific (Tribe logs)
-            if message.channel.id == TRIBE_LOGS_CHANNEL_ID:
-                # Trimite un ping la rolul 'Tribe Member' în canalul Raid-base
-                raid_base_channel = bot.get_channel(RAID_BASE_CHANNEL_ID)
-                if raid_base_channel:
-                    await raid_base_channel.send(f"<@&{ROLE_ID}> Alertă: Mesaj detectat cu cuvintele cheie!")
+                    # Trimite ping la rolul 'Tribe membru' și mesajul 'Inamici la Fob'
+                    await raid_base_channel.send(f"<@&{ROLE_ID}> Inamici la Fob")  # Ping la rol și mesaj pentru 'Fob'
 
     except Exception as e:
         print(f"❌ Eroare: {e}")
