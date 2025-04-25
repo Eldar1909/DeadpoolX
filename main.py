@@ -1,9 +1,8 @@
 import discord
 from discord.ext import commands
-import os  # Vom folosi acest modul pentru a prelua variabilele de mediu
 
-# Tokenul botului - preluat din variabila de mediu
-TOKEN = os.getenv("DISCORD_TOKEN")  # Asigură-te că ai setat variabila de mediu DISCORD_TOKEN pe platforma ta de deployment
+# Tokenul botului - nu uita să înlocuiești cu tokenul tău real
+TOKEN = "TOKENUL_TAU_AICI"  # Îți recomand să pui tokenul într-un fișier de configurare sau să-l folosești ca variabilă de mediu
 
 # Intenții - pentru a permite botului să citească mesajele
 intents = discord.Intents.default()
@@ -30,11 +29,15 @@ async def on_message(message):
             content = message.content.lower()
 
             # Căutăm anumite cuvinte cheie în mesaj
-            if "tek sensor" in content or "fob" in content:
-                print("⚠️ Alertă: Mesaj cu 'Tek Sensor' sau 'Fob' detectat!")
-
-                # Trimite un mesaj în canalul de alertă
-                await message.channel.send("<@&937964042247622657> Alertă: Enemy detectat!")  # Ping la rolul 'Enemy'
+            if "tek sensor" in content:
+                print("⚠️ Alertă: Mesaj cu 'Tek Sensor' detectat!")
+                # Trimite mesaj în canalul respectiv
+                await message.channel.send("Inamici la baza")  # Mesaj pentru 'Tek Sensor'
+            
+            elif "fob" in content:
+                print("⚠️ Alertă: Mesaj cu 'Fob' detectat!")
+                # Trimite mesaj în canalul respectiv
+                await message.channel.send("Inamici la Fob")  # Mesaj pentru 'Fob'
 
     except Exception as e:
         print(f"❌ Eroare: {e}")
